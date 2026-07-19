@@ -1,9 +1,5 @@
 package config
 
-import (
-	"github.com/spf13/viper"
-)
-
 type Config struct {
 	App   AppConfig
 	Mysql MysqlConfig
@@ -18,16 +14,16 @@ type AppConfig struct {
 }
 
 type MysqlConfig struct {
-	Host     string `mapstructure:"host"`
-	Port     int    `mapstructure:"port"`
-	User     string `mapstructure:"user"`
+	Host     string `mapstructure:"host" validate:"required"`
+	Port     int    `mapstructure:"port" validate:"required"`
+	User     string `mapstructure:"user" validate:"required"`
 	Password string `mapstructure:"password"`
-	DBName   string `mapstructure:"dbname"`
+	DBName   string `mapstructure:"dbname" validate:"required"`
 }
 
 type RedisConfig struct {
-	Host     string `mapstructure:"host"`
-	Port     int    `mapstructure:"port"`
+	Host     string `mapstructure:"host" validate:"required"`
+	Port     int    `mapstructure:"port" validate:"required"`
 	Password string `mapstructure:"password"`
 	DB       int    `mapstructure:"db"`
 }
@@ -37,22 +33,8 @@ type LogConfig struct {
 	FileName string `mapstructure:"filename"`
 }
 
-var Conf Config
 
-func InitConfig(path string) error {
-	v := viper.New()
-	v.SetConfigName("config")
-	v.SetConfigType("yaml")
-	v.AddConfigPath(path)
 
-	err := v.ReadInConfig()
-	if err != nil {
-		return err
-	}
 
-	err = v.Unmarshal(&Conf)
-	if err != nil {
-		return err
-	}
-	return nil
-}
+
+

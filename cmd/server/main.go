@@ -1,19 +1,8 @@
 package main
 
-import(
-	"fmt"
-	"gin-scaffold/internal/config"
-)
+import "gin-scaffold/internal/bootstrap"
 
 func main() {
-	err := config.InitConfig("./configs")
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Println(config.Conf.App.Name)
-
-	fmt.Println(config.Conf.Mysql.Host)
-
-	fmt.Println(config.Conf.Redis.Host)
+	app := bootstrap.NewApp()
+	app.Run()
 }

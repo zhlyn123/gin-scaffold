@@ -1,0 +1,17 @@
+app:
+  name: gin-scaffold
+  env: prod
+  port: 80
+
+
+mysql:
+  host: mysql-service
+  port: 3306
+  user: app
+  password: prod_password
+  dbname: production
+
+
+redis:
+  host: redis-service
+  port: 6379
