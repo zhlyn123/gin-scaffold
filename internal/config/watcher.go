@@ -17,7 +17,8 @@ func WatchConfig(v *viper.Viper) {
 			if err := v.Unmarshal(&cfg); err != nil {
 				println("unmarshal config failed:", err.Error())
 			}
-
+			println("App:",cfg.App.Name)
+			config.Store(&cfg)
 		},
 	)
 }

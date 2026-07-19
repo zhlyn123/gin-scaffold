@@ -42,12 +42,8 @@ func InitConfig() error {
 
 	validate := validator.New()
 
-	err := validate.Struct(cfg)
-
-	if err != nil {
-
+	if err := validate.Struct(cfg);err != nil {
 		return err
-
 	}
 	
 	WatchConfig(v)
