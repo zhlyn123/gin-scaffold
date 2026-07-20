@@ -12,22 +12,21 @@ import (
 func GinLogger() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		start := time.Now()
-		path := c.Request.URL.Path
-		method := c.Request.Method
 
 		c.Next()
-		cost := time.Since(start)
-		Log.Info(
+
+		log := FromContext(c)
+		log.Info(
 			"http request",
 
 			zap.String(
 				"method",
-				method,
+				c.Request.Method,
 			),
 
 			zap.String(
 				"path",
-				path,
+				c.Request.URL.Path,
 			),
 
 			zap.Int(
@@ -37,7 +36,7 @@ func GinLogger() gin.HandlerFunc {
 
 			zap.Duration(
 				"latency",
-				cost,
+				time.Since(start),
 			),
 		)
 	}
