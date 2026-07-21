@@ -10,12 +10,15 @@ import (
 //zap 实列创建
 
 func NewLogger() *zap.Logger {
+	//获取全局配置
 	cfg := config.GetConfig()
 
+	//定义记录日志级别
 	level := parseLevel(
 		cfg.Log.Level,
 	)
 
+	//定义输出格式模板
 	encoderConfig := zapcore.EncoderConfig{
 		TimeKey: "time",
 
@@ -32,8 +35,10 @@ func NewLogger() *zap.Logger {
 		EncodeCaller: zapcore.ShortCallerEncoder,
 	}
 
+	//创建 JSON 编码器
 	encoder := zapcore.NewJSONEncoder(encoderConfig)
 
+	//创建 输出核心
 	core := zapcore.NewCore(
 		encoder,
 		zapcore.AddSync(NewWriter(cfg.Log)),

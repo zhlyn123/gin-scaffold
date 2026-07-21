@@ -18,17 +18,8 @@ func GetRequestID(c *gin.Context) string {
 	return value.(string)
 }
 
-func SetContextLogger(c *gin.Context, logger *zap.Logger) {
-	c.Set(Loggerkey, logger)
-}
-
 func FromContext(c *gin.Context) *zap.Logger {
 	requestID := GetRequestID(c)
-
-	// value, exists := c.Get(Loggerkey)
-	// if !exists {
-	// 	return Log
-	// }
 
 	// return value.(*zap.Logger)
 	return Log.With(
