@@ -3,18 +3,11 @@ package bootstrap
 import (
 	"gin-scaffold/internal/config"
 	"gin-scaffold/internal/logger"
-	"net/http"
-
-	"github.com/redis/go-redis/v9"
-	"go.uber.org/zap"
-	"gorm.io/gorm"
+	"gin-scaffold/internal/infrastructure/database"
 )
 
 type App struct {
-	server *http.Server
-	DB     *gorm.DB
-	Redis  *redis.Client
-	Logger *zap.Logger
+	DB     *database.Mysql
 }
 
 func NewApp() *App {
@@ -29,10 +22,15 @@ func NewApp() *App {
 	logger.InitLogger(log)
 	logger.Log.Info("logger initialized")
 
-	return &App{}
+	mysql := database.NewMySQL(
+		config.GetConfig().Mysql,
+	)
+
+	return &App{
+		DB: mysql,
+	}
 }
 
 func (a *App) Run() {
 	println("server running")
-	println(config.GetConfig().Mysql.Port)
 }

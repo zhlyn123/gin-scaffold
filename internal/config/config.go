@@ -14,11 +14,14 @@ type AppConfig struct {
 }
 
 type MysqlConfig struct {
-	Host     string `mapstructure:"host" validate:"required"`
-	Port     int    `mapstructure:"port" validate:"required"`
-	User     string `mapstructure:"user" validate:"required"`
-	Password string `mapstructure:"password"`
-	DBName   string `mapstructure:"dbname" validate:"required"`
+	Host        string `mapstructure:"host" validate:"required"`
+	Port        int    `mapstructure:"port" validate:"required"`
+	User        string `mapstructure:"user" validate:"required"`
+	Password    string `mapstructure:"password"`
+	DBName      string `mapstructure:"dbname" validate:"required"`
+	MaxOpenConn int    `mapstructure:"max_open_conn"`
+	MaxIdleConn int    `mapstructure:"max_idle_conn"`
+	MaxLifetime int    `mapstructure:"max_lifetime"`
 }
 
 type RedisConfig struct {

@@ -9,6 +9,9 @@ mysql:
   user: root
   password: root
   dbname: test
+  max_open_conn: 100
+  max_idle_conn: 20
+  max_lifetime: 3600
 
 redis:
   host: localhost
