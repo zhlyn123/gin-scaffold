@@ -6,7 +6,30 @@ import (
 	"syscall"
 
 	"gin-scaffold/internal/logger"
+
+	"go.uber.org/zap"
 )
+
+type ShutdownFunc func() error
+
+var Shutdowns []ShutdownFunc
+
+func RegisterShutdown(f ShutdownFunc) {
+	Shutdowns = append(Shutdowns, f)
+}
+
+func Shutdown() error {
+	for _, f := range Shutdowns {
+		if err := f(); err != nil {
+			logger.Log.Error(
+				"Shutdown error", 
+				zap.Error(err),
+			)
+			return err
+		}
+	}
+	return nil
+}
 
 func WaitShutdown() {
 	// 等待中断信号来优雅地关闭服务器

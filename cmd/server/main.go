@@ -7,5 +7,5 @@ func main() {
 
 	go app.Run()
 	
-	bootstrap.WaitShutdown()
+	bootstrap.Shutdown()
 }

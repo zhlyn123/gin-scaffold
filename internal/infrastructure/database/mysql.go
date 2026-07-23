@@ -37,7 +37,7 @@ func NewMySQL(cfg config.MysqlConfig) *Mysql {
 	)
 
 	db, err := gorm.Open(
-		mysql.Open(dsn), 
+		mysql.Open(dsn),
 		&gorm.Config{
 			Logger: GormLogger,
 		},
@@ -61,4 +61,12 @@ func NewMySQL(cfg config.MysqlConfig) *Mysql {
 	return &Mysql{
 		DB: db,
 	}
+}
+
+func (m *Mysql) Close() error {
+	sqlDB, err := m.DB.DB()
+	if err != nil {
+		return err
+	}
+	return sqlDB.Close()
 }

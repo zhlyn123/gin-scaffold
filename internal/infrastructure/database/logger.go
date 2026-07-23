@@ -79,11 +79,17 @@ func (l *GormLogger) Trace(
 	err error,
 ) {
 
+	requestID := getRequestID(ctx)
+
 	elapsed := time.Since(begin)
 
 	sql, rows := fc()
 
 	fields := []zap.Field{
+		zap.String(
+			"request_id",
+			requestID,
+		),
 
 		zap.String(
 			"sql",
@@ -130,6 +136,13 @@ func (l *GormLogger) Trace(
 		fields...,
 	)
 
+}
+
+func getRequestID(ctx context.Context) string {
+	if reqID, ok := ctx.Value(logger.RequestIDKey).(string); ok {
+		return reqID
+	}
+	return ""
 }
 
 func ConvertGormLogLevel(

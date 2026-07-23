@@ -11,9 +11,9 @@ func InitLogger(l *zap.Logger) {
 	Log = l
 }
 
-func Close() {
+func Close() error{
 	if Log == nil {
-		return
+		return nil
 	}
-	_ = Log.Sync()
+	return Log.Sync()
 }

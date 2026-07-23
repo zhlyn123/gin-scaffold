@@ -23,6 +23,7 @@ func NewApp() *App {
 	log := logger.NewLogger()
 	logger.InitLogger(log)
 	logger.Log.Info("logger initialized")
+	RegisterShutdown(logger.Close)
 
 	mysql := database.NewMySQL(
 		config.GetConfig().Mysql,
@@ -31,6 +32,8 @@ func NewApp() *App {
 	if err := mysql.Health(); err != nil {
 		logger.Log.Fatal("mysql unavailable", zap.Error(err))
 	}
+
+	RegisterShutdown(mysql.Close)
 
 	return &App{
 		DB: mysql,
