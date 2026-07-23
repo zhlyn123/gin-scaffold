@@ -2,12 +2,14 @@ package bootstrap
 
 import (
 	"gin-scaffold/internal/config"
-	"gin-scaffold/internal/logger"
 	"gin-scaffold/internal/infrastructure/database"
+	"gin-scaffold/internal/logger"
+
+	"go.uber.org/zap"
 )
 
 type App struct {
-	DB     *database.Mysql
+	DB *database.Mysql
 }
 
 func NewApp() *App {
@@ -25,6 +27,10 @@ func NewApp() *App {
 	mysql := database.NewMySQL(
 		config.GetConfig().Mysql,
 	)
+
+	if err := mysql.Health(); err != nil {
+		logger.Log.Fatal("mysql unavailable", zap.Error(err))
+	}
 
 	return &App{
 		DB: mysql,

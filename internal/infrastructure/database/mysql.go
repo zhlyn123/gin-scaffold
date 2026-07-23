@@ -3,6 +3,7 @@ package database
 import (
 	"fmt"
 	"gin-scaffold/internal/config"
+	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -28,7 +29,19 @@ func NewMySQL(cfg config.MysqlConfig) *Mysql {
 		cfg.DBName,
 	)
 
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	GormLogger := NewGormLogger(
+		ConvertGormLogLevel(
+			config.GetConfig().Log.Level,
+		),
+		500*time.Millisecond,
+	)
+
+	db, err := gorm.Open(
+		mysql.Open(dsn), 
+		&gorm.Config{
+			Logger: GormLogger,
+		},
+	)
 	if err != nil {
 		panic(err)
 	}
@@ -45,5 +58,7 @@ func NewMySQL(cfg config.MysqlConfig) *Mysql {
 		cfg.MaxLifetime,
 	)
 
-	return &Mysql{DB: db}
+	return &Mysql{
+		DB: db,
+	}
 }
