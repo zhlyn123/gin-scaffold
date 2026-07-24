@@ -9,7 +9,14 @@ mysql:
   user: app
   password: prod_password
   dbname: production
+  max_open_conn: 100
+  max_idle_conn: 20
+  max_lifetime: 3600
 
 redis:
   host: redis-service
-  port: 6379
+  port: 6379max_open_conn: 
+  password: ""
+  db: 0
+  max_idle_conn: 20
+  max_lifetime: 3600

@@ -29,6 +29,8 @@ type RedisConfig struct {
 	Port     int    `mapstructure:"port" validate:"required"`
 	Password string `mapstructure:"password"`
 	DB       int    `mapstructure:"db"`
+	PoolSize int `mapstructure:"pool_size"`
+	MinIdleConn int `mapstructure:"min_idle_conn"`
 }
 
 type LogConfig struct {
